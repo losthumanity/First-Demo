@@ -136,19 +136,24 @@ int main(int argc, char* argv[]) {
   TrieNode* root = new TrieNode();
   root = loadDictionary("dict.txt");
 
-  if(argc > 1) {
-    string mode = argv[1];
+string word;
+  cout << "Enter word to check or 'quit' to exit: ";
+  getline(cin, word);
+  
+  while(word != "quit") {
 
-    if(mode == "-i") {
-      interactiveMode();
-    }
-    else if(mode == "-f") {
-      batchMode(argv[2]);
+    transform(word.begin(), word.end(), word.begin(), ::tolower); 
+
+    if(search(root, word)) {
+      cout << "Spelling is correct." << endl;  
     }
     else {
-      printUsage(); 
+      cout << "Spelling is incorrect. Suggestions:" << endl;
+      suggestions(root, word);
     }
+    
+    cout << endl << "Enter word to check or 'quit' to exit: ";  
+    getline(cin, word);
   }
-
   return 0;
 }
